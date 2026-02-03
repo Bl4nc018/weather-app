@@ -1,68 +1,112 @@
+/* Fuentes */
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Redressed&display=swap');
+
+/* Base / Defaults */
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --text: #fff;
+  --overlay: rgba(0, 0, 0, 0.4);
+  --panel: rgba(255, 255, 255, 0.2);
+  --input-bg: rgba(255, 255, 255, 0.1);
+  --input-border: rgba(255, 255, 255, 0.8);
+}
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+html { box-sizing: border-box;}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+body {
+  margin: 0;
+  color: var (--text);
+  font-family: "Bricolage Grotesque", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* { box-sizing: inherit;}
+
+/* Tipografía */
+
+h1, p {margin: 0;}
+h1 { font-size: 6rem; }
+p { font-size: 1.6rem;}
+
+
+/* App Layout */
+
+.app {
+  width:auto;
+  height: 100vh;
+  position: relative;
+  background-color: var(--overlay);
+  overflow: hidden;
 }
 
-body {
-  margin: 0;
+.app::before {
+  position: absolute;
+  inset: 0;
+  background:"";
+  z-index: -1;
+  filter: blur(6px);
+  transform: scale(1.05); 
+}
+
+.container{
+  max-width: 700px;
+  height: 700px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+  top: 10%;
+
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Barra de búsqueda*/
+
+.search{
+  padding: 1rem;
+  text-align: center;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.app input{
+  padding: 0.7rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1.2rem;
+
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: inherit;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.app input::placeholder{
+  color: var(--text);
+  opacity: 0.85;
 }
+
+/* Bloques */
+
+.top {
+  width: 100%;
+  margin: 1rem auto;
+}
+
+.description {
+  position: absolute;
+  top: 20%;
+  left: 90%;
+}
+
+.bottom {
+  width: 100%;
+  margin: 1rem auto;
+  justify-content: space-evenly;
+  margin-bottom: 2rem;
+
+  background-color: var(--panel);
+}
+
+/* Utilidades */
+
+.bold { font-weight: 700; }
