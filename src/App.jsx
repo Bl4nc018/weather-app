@@ -1,17 +1,16 @@
 import { useState } from 'react'
 import axios from 'axios';
-import './App.css'
 
 function App() {
 
   const [data, setData] = useState({});
   const [location, setLocation] = useState("");
 
-  const API_KEY = "YOUR_API_KEY"
+  const API_KEY = "YOUR_API_HERE"; // Reemplaza con tu propia API key de OpenWeatherMap.
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}`
 
   const searchLocation = (event) => {
-    if (event.key !== "Enter") {
+    if (event.key === "Enter") {
     axios.get(url).then((response) => {
       setData(response.data);
       console.log(response.data);
