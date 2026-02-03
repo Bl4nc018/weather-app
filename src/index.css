@@ -16,7 +16,7 @@ html { box-sizing: border-box;}
 
 body {
   margin: 0;
-  color: var (--text);
+  color: var(--text);
   font-family: "Bricolage Grotesque", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -48,7 +48,7 @@ p { font-size: 1.6rem;}
   background: url('./assets/background.jpg') no-repeat center / cover;
   z-index: -1;
   filter: blur(6px);
-  transform: scale(1.05); 
+  transform: scale(1.05);
 }
 
 .container{
@@ -101,7 +101,7 @@ p { font-size: 1.6rem;}
   position: absolute;
   top: 20%;
   left: 90%;
-  transform: translate(-50% -50%) rotate(270deg);
+  transform: translate(-50%, -50%) rotate(270deg);
   transform-origin: center;
   text-transform: capitalize;
 }
