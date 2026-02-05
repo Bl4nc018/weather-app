@@ -28,7 +28,7 @@ function App() {
   const main = data.weather?.[0]?.main; // "Rain", "Clear", etc.
   const WeatherIcon = main ? ICONS_BY_MAIN[main] : null;
 
-  const API_KEY = "YOUR_API_KEY";
+  const API_KEY = "YOUR_API_KEY"; // Reemplaza esto con tu propia API key de OpenWeatherMap
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&lang=es&appid=${API_KEY}`;
 
   // Geocoding para obtener local_names.es
@@ -89,16 +89,18 @@ function App() {
           </div>
 
           <div className="temp">
-            {data.main ? <h1>{Math.round(data.main.temp)}°C</h1> : null}
+            {data.main ? (
+              <div className="temp-row">
+                <h1>
+                  {Math.round(data.main.temp)}°C{" "}
+                  {WeatherIcon && <WeatherIcon className="weather-icon" />}
+                </h1>
+              </div>
+            ) : null}
           </div>
 
           <div className="description">
-            {data.weather ? (
-              <div>
-                {WeatherIcon && <WeatherIcon className="weather-icon" />}
-                <p>{data.weather[0].description}</p>
-              </div>
-            ) : null}
+            {data.weather ? <p>{data.weather[0].description}</p> : null}
           </div>
         </div>
 

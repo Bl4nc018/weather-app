@@ -27,8 +27,8 @@ body {
 /* Tipografía */
 
 h1, p { margin: 0; }
-h1 { font-size: 6rem; }
-p { font-size: 1.6rem;}
+h1 { font-size: 8rem; }
+p { font-size: 2rem;}
 
 
 /* App Layout */
@@ -65,9 +65,8 @@ p { font-size: 1.6rem;}
 }
 
 .weather-icon {
-  font-size: 5rem;
-  display: block;
-  margin: 0 auto 0.25rem;
+  font-size: 9rem;
+  display: inline-block;
   filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
 }
 
