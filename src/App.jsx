@@ -1,28 +1,74 @@
-import { useState } from 'react'
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import { WiDaySunny, WiCloudy, WiRain, WiSnow, WiThunderstorm, WiFog, WiStrongWind, } from "react-icons/wi";
 
 function App() {
-
   const [data, setData] = useState({});
   const [location, setLocation] = useState("");
+  const [cityEs, setCityEs] = useState("");
 
-  const API_KEY = "YOUR_API_KEY"; // Reemplaza con tu propia API key de OpenWeatherMap.
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}`
+  const ICONS_BY_MAIN = {
+    Clear: WiDaySunny,
+    Clouds: WiCloudy,
+    Rain: WiRain,
+    Drizzle: WiRain,
+    Snow: WiSnow,
+    Thunderstorm: WiThunderstorm,
+    Mist: WiFog,
+    Smoke: WiFog,
+    Haze: WiFog,
+    Dust: WiFog,
+    Fog: WiFog,
+    Sand: WiFog,
+    Ash: WiFog,
+    Squall: WiStrongWind,
+    Tornado: WiStrongWind,
+  };
+
+  const main = data.weather?.[0]?.main; // "Rain", "Clear", etc.
+  const WeatherIcon = main ? ICONS_BY_MAIN[main] : null;
+
+  const API_KEY = "YOUR_API_KEY";
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&lang=es&appid=${API_KEY}`;
+
+  // Geocoding para obtener local_names.es
+  const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${API_KEY}`;
 
   const searchLocation = (event) => {
     if (event.key === "Enter") {
-    axios.get(url).then((response) => {
-      setData(response.data);
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.error("Error obteniendo el tiempo:", error);
-    });
+      // 1) Pedimos el nombre en español a Geocoding
+      axios
+        .get(geoUrl)
+        .then((geoRes) => {
+          const place = geoRes.data?.[0];
 
-    setLocation("");
+          if (place) {
+            // Si existe el nombre en español hace uso de el, en caso contrario, muestra el nombre original
+            setCityEs(place.local_names?.es || place.name);
+          } else {
+            setCityEs("");
+          }
+        })
+        .catch((err) => {
+          console.error("Geocoding error:", err);
+          setCityEs("");
+        });
+
+      // 2) Esta es la llamada original para obtener el clima
+      axios
+        .get(url)
+        .then((response) => {
+          setData(response.data);
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.error("Weather error:", err);
+          setData({});
+        });
+
+      setLocation("");
     }
   };
-
 
   return (
     <div className="app">
@@ -31,43 +77,56 @@ function App() {
           value={location}
           onChange={(event) => setLocation(event.target.value)}
           onKeyDown={searchLocation}
-          placeholder='Enter Location'
+          placeholder="Enter Location"
           type="text"
         />
       </div>
 
-      <div className="container"> 
+      <div className="container">
         <div className="top">
           <div className="location">
-            <p>{data.name}</p>
+            <p>{cityEs || data.name}</p>
           </div>
+
           <div className="temp">
-            {data.main ? <h1>{Math.round(data.main.temp - 273.15)}°C</h1> : null}
+            {data.main ? <h1>{Math.round(data.main.temp)}°C</h1> : null}
           </div>
+
           <div className="description">
-            {data.weather ? <p>{data.weather[0].main}</p> : null}
+            {data.weather ? (
+              <div>
+                {WeatherIcon && <WeatherIcon className="weather-icon" />}
+                <p>{data.weather[0].description}</p>
+              </div>
+            ) : null}
           </div>
         </div>
 
         {data.name !== undefined && (
-        <div className="bottom">
-          <div className="feels">
-            {data.main ? <p className='bold'>{Math.round(data.main.feels_like - 273.15)}°C</p> : null}
-            <p>Feels Like</p>
+          <div className="bottom">
+            <div className="feels">
+              {data.main ? (
+                <p className="bold">{Math.round(data.main.feels_like)}°C</p>
+              ) : null}
+              <p>Sensación térmica</p>
+            </div>
+
+            <div className="humidity">
+              {data.main ? <p className="bold">{data.main.humidity}%</p> : null}
+              <p>Humedad</p>
+            </div>
+
+            <div className="wind">
+              {data.wind ? (
+                <p className="bold">{Math.round(data.wind.speed * 3.6)} km/h</p>
+              ) : null}
+              <p>Velocidad del viento</p>
+            </div>
           </div>
-          <div className="humidity">
-            {data.main ? <p className='bold'>{data.main.humidity}%</p> : null}
-            <p>Humidity</p>
-          </div>
-          <div className="wind">
-            {data.wind ? <p className='bold'>{data.wind.speed} MPH</p> : null}
-            <p>Wind Speed</p>
-          </div>
-        </div>
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

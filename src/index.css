@@ -64,6 +64,12 @@ p { font-size: 1.6rem;}
   justify-content: space-between;
 }
 
+.weather-icon {
+  font-size: 5rem;
+  display: block;
+  margin: 0 auto 0.25rem;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+}
 
 /* Barra de búsqueda*/
 
