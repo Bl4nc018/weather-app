@@ -28,7 +28,8 @@ function App() {
   const main = data.weather?.[0]?.main; // "Rain", "Clear", etc.
   const WeatherIcon = main ? ICONS_BY_MAIN[main] : null;
 
-  const API_KEY = "YOUR_API_KEY"; // Reemplaza esto con tu propia API key de OpenWeatherMap
+  const API_KEY = import.meta.env.VITE_API_KEY;
+  
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&lang=es&appid=${API_KEY}`;
 
   // Geocoding para obtener local_names.es
